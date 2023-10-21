@@ -25,8 +25,7 @@ SECRET_KEY = 'django-insecure-%zti65a^q=x6@jb^0&e(1^#$t51av7^dk_#4%vgr6-3%u!pfr-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['amnabdi.pythonanywhere.com',]
 
 # Application definition
 
@@ -76,9 +75,12 @@ WSGI_APPLICATION = 'api.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'amnabdi$default',
+        'USER': 'amnabdi',
+        'PASSWORD': 'pythondjangomysql',
+        'HOST': 'amnabdi.mysql.pythonanywhere-services.com',
     }
 }
 
