@@ -4,5 +4,5 @@ from hotel import views
 urlpatterns = [
     path('hotels/', views.hotels_list),
     path('hotel/<int:pk>/', views.hotel_detail),
-    path('hotel/inject/', views.inject_data),
+    # path('hotel/inject/', views.inject_data),
 ]

@@ -1,32 +1,3 @@
-# from rest_framework import serializers
-# from hotel.models import Post
-
-
-# class HotelSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Post
-#         fields = (
-#             "id",
-#             "name",
-#             "is_active",
-#             "rate",
-#             "property_type",
-#             "host_name",
-#             "room_type",
-#             "accommodates",
-#             "guests_included",
-#             "bedrooms",
-#             "beds",
-#             "bathrooms",
-#             "space",
-#             "summary",
-#             "latitude",
-#             "smart_location",
-#             "price",
-#             "longitude",
-#         )
-
-
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
 
@@ -47,6 +18,7 @@ class HotelSerializer(serializers.Serializer):
     guests_included = serializers.IntegerField()
     bedrooms = serializers.IntegerField()
     beds = serializers.IntegerField()
+    number_of_reviews = serializers.IntegerField()
     bathrooms = serializers.IntegerField()
     space = serializers.CharField(max_length=100, default='')
     summary= serializers.CharField(max_length=100, default='')
@@ -55,3 +27,4 @@ class HotelSerializer(serializers.Serializer):
     latitude = serializers.FloatField()
     smart_location = serializers.CharField(max_length=100, default='')
     picture_url = Picture_Url()
+
