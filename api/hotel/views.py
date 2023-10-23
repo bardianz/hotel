@@ -51,6 +51,8 @@ def hotel_detail(request, pk):
 
 
 import json
+from pathlib import Path
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -90,14 +92,14 @@ def filter_data():
         "picture_url",
     ]
 
-    loc =BASE_DIR + 'db.json'
+    loc = str(BASE_DIR) + '/db.json'
     all = get_all(loc)
     # print(all[0])
     new_list = []
     for i in all:
         new_dict = {}
         for j in save_items:
-            new_list[j] = i[j]
+            new_dict[j] = i[j]
         
         new_list.append(new_dict)
             
@@ -105,34 +107,32 @@ def filter_data():
     return new_list
 
 
-from pathlib import Path
 
 def inject_data(request):
     data = filter_data()
     if request.method == 'GET':
         for i in data:
             h = Hotel(
-            name= i['name'],
             id=i['id'],
-            title=i['title'],
+            # title=i['title'],
             name=i['name'],
             # is_active=i['is_active'],
             rate=i['rate'],
-            property_type='i['property_type'],
+            property_type=i['property_type'],
             host_name=i['host_name'],
-            room_type='i['room_type'],
-            accommodates='i['accommodates'],
+            room_type=i['room_type'],
+            accommodates=i['accommodates'],
             guests_included=i['guests_included'],
             bedrooms=i['bedrooms'],
             beds=i['beds'],
-            bathrooms='i['bathrooms'],
+            bathrooms=i['bathrooms'],
             space=i['space'],
             summary=i['summary'],
             price=i['price'],
             longitude=i['longitude'],
             latitude=i['latitude'],
             smart_location=i['smart_location'],
-            picture_url=i['picture_url'],
+            # picture_url=i['picture_url'],
                     )
             h.save()
         return HttpResponse()
