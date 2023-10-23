@@ -47,3 +47,93 @@ def hotel_detail(request, pk):
     elif request.method == 'DELETE':
         hotel.delete()
         return HttpResponse(status=204)
+
+
+
+import json
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+def get_all(loc):
+
+    f = open(loc)
+    data = json.load(f)
+
+    all = []
+    for i in data['hotels'] : all.append(i)
+
+    f.close()
+    return all
+
+
+def filter_data():
+    save_items = [
+        "id",
+        # "title",
+        "name",
+        # "is_active",
+        "rate",
+        "property_type",
+        "host_name",
+        "room_type",
+        "accommodates",
+        "guests_included",
+        "bedrooms",
+        "beds",
+        "bathrooms",
+        "space",
+        "summary",
+        "price",
+        "longitude",
+        "latitude",
+        "smart_location",
+        "picture_url",
+    ]
+
+    loc = str(BASE_DIR) + '/db.json'
+    all = get_all(loc)
+    # print(all[0])
+    new_list = []
+    for i in all:
+        new_dict = {}
+        for j in save_items:
+            new_dict[j] = i[j]
+        
+        new_list.append(new_dict)
+            
+    print(new_list[0])
+    return new_list
+
+
+
+def inject_data(request):
+    data = filter_data()
+    if request.method == 'GET':
+        for i in data:
+            h = Hotel(
+            id=i['id'],
+            # title=i['title'],
+            name=i['name'],
+            # is_active=i['is_active'],
+            rate=i['rate'],
+            property_type=i['property_type'],
+            host_name=i['host_name'],
+            room_type=i['room_type'],
+            accommodates=i['accommodates'],
+            guests_included=i['guests_included'],
+            bedrooms=i['bedrooms'],
+            beds=i['beds'],
+            bathrooms=i['bathrooms'],
+            space=i['space'],
+            summary=i['summary'],
+            price=i['price'],
+            longitude=i['longitude'],
+            latitude=i['latitude'],
+            smart_location=i['smart_location'],
+            # picture_url=i['picture_url'],
+                    )
+            h.save()
+        return HttpResponse()
+
