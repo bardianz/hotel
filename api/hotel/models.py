@@ -26,6 +26,7 @@ class Hotel(models.Model):
     price = models.IntegerField(null=True)
     longitude = models.FloatField(null=True)
     latitude = models.FloatField(null=True)
+    number_of_reviews = models.IntegerField(null=True,blank=True)
     smart_location = models.CharField(max_length=100, blank=True, default='',null=True)
     picture_url = models.ForeignKey(Picture,on_delete=models.CASCADE,null=True)
     def __str__(self) -> str:
