@@ -1,9 +1,10 @@
 from django.contrib import admin
-from .models import Hotel,Picture
+# from .models import Hotel,Picture,Amenitie
+from .models import Hotel
 
-# admin.site.register(Picture)
 
 class HotelAdmin(admin.ModelAdmin):
     list_display = ["name", "id", "picture_url"]
 
 admin.site.register(Hotel, HotelAdmin)
+
