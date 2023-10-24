@@ -1,7 +1,7 @@
 from django.urls import path, include
 from hotel import views
 from .views import HotelListView, HotelCreateView
-from rest_framework import routers, serializers, viewsets
+from rest_framework import routers, viewsets
 from hotel.models import Hotel
 from hotel.serializers import HotelSerializer
 
@@ -15,8 +15,8 @@ router.register(r'all', HotelViewSet)
 
 
 urlpatterns = [
-    path('', include(router.urls)),
-    path('hotels/', HotelListView.as_view(), name='hotel-list'),
-    path('hotels/create/', HotelCreateView.as_view(), name='hotel-create'),
-    path('inject/', views.inject_data),
+    path("", include(router.urls)),
+    path("hotels/", HotelListView.as_view(), name='hotel-list'),
+    path("hotels/create/", HotelCreateView.as_view(), name='hotel-create'),
+    path("hotels/inject/", views.inject_data),
 ]
