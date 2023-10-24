@@ -1,14 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
-
-class Picture(models.Model):
-    url = models.CharField(max_length=200, default='')
-
-    def __str__(self):
-        return f"{self.url}"
-
 class Hotel(models.Model):
     name = models.CharField(max_length=100, blank=True, default='',null=True)
     is_active = models.BooleanField(default=True,null=True)
@@ -28,6 +19,9 @@ class Hotel(models.Model):
     latitude = models.FloatField(null=True)
     number_of_reviews = models.IntegerField(null=True,blank=True)
     smart_location = models.CharField(max_length=100, blank=True, default='',null=True)
-    picture_url = models.ForeignKey(Picture,on_delete=models.CASCADE,null=True)
+    picture_url = models.JSONField()
+    amenities = models.JSONField(null=True)
+    
     def __str__(self) -> str:
         return self.name
+    
