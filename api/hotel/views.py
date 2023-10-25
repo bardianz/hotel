@@ -1,11 +1,13 @@
 
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Hotel
 from .serializers import HotelSerializer
 from extensions.data_injector import filter_data
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import JSONParser
 
 
 class HotelListView(APIView):
@@ -13,6 +15,7 @@ class HotelListView(APIView):
         queryset = Hotel.objects.all()
         serializer = HotelSerializer(queryset, many=True)
         return Response(serializer.data)
+
 
 class HotelCreateView(APIView):
     def post(self, request):
@@ -22,14 +25,41 @@ class HotelCreateView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class HotelDetailView(APIView):
-    def get(self, request, hotel_id):
-        try:
-            hotel = Hotel.objects.get(id=hotel_id)
-            serializer = HotelSerializer(hotel)
-            return Response(serializer.data)
-        except Hotel.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+
+"""
+this HotelDetailView class should rewrite again because does not work!
+"""
+
+# class HotelDetailView(APIView):
+#     def get(self, request, pk):
+#         try:
+#             hotel = Hotel.objects.filter(pk=pk)
+#             print(hotel)
+#             serializer = HotelSerializer(hotel)
+#             return Response(serializer.data)
+#         except Hotel.DoesNotExist:
+#             return Response(status=status.HTTP_404_NOT_FOUND)
+        
+@csrf_exempt
+def hotel_detail(request, pk):
+
+    try:
+        hotel = Hotel.objects.get(pk=pk)
+    except Hotel.DoesNotExist:
+        return HttpResponse(status=404)
+    if request.method == 'GET':
+        serializer = HotelSerializer(hotel)
+        return JsonResponse(serializer.data)
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        serializer = HotelSerializer(hotel, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
+    elif request.method == 'DELETE':
+        hotel.delete()
+        return HttpResponse(status=204)
 
 class HotelUpdateView(APIView):
     def put(self, request, hotel_id):
