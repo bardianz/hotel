@@ -30,7 +30,8 @@ class HotelCreateView(APIView):
 this HotelDetailView class should rewrite again because does not work!
 """
 
-# class HotelDetailView(APIView):
+class HotelDetailView(APIView):
+    pass
 #     def get(self, request, pk):
 #         try:
 #             hotel = Hotel.objects.filter(pk=pk)
